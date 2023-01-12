@@ -24,15 +24,15 @@ class ChatClientController {
 
     @FXML
     private fun onHelloButtonClick() {
-        val config = RedisURI.Builder.redis("172.16.202.132", 6379).withDatabase(0)
-            .build()//RedisURI.create("redis://172.16.202.132:6379").database(1));
+        //Create Redis Connection in GUI Thread
+        val config = RedisURI.Builder.redis("172.16.202.132", 6379).withDatabase(0).build()
         val redisClient = RedisClient.create(config)
         val connection: StatefulRedisPubSubConnection<String, String> = redisClient.connectPubSub()
         val async = connection.async()
         val tmp = "Client " + clientid + ":" + messagefield.text.toString()
         println("send $tmp")
         async.publish("chat", tmp)
-        messagefield.clear()
+        messagefield.clear() //Clear MessageInput field when Message is send
     }
 
     @FXML
@@ -40,10 +40,10 @@ class ChatClientController {
         welcomeText.text = "Listener Started on Client $clientid"
         val thread = Thread {
             class Listener : RedisPubSubListener<String?, String?> {
-                //Code der bei Nachrichten empfang ausgeführt werden soll
+                //Code witch should be executed if a message arrived
                 override fun message(s: String?, s2: String?) {
                     Platform.setImplicitExit(false)
-                    //Update GUI out of non GUI Thread
+                    //Update GUI in non GUI Thread
                     Platform.runLater {
                         welcomeText.text = welcomeText.text.toString() + "\n" + s2
                     }
@@ -55,10 +55,10 @@ class ChatClientController {
                 override fun unsubscribed(s: String?, l: Long) {}
                 override fun punsubscribed(s: String?, l: Long) {}
             }
-            // Erstelle Verbindung zu Redis
+            //Create Connection to Redis in separated NonGui Thread
             val redisClient = RedisClient.create("redis://172.16.202.132:6379")
             val connection = redisClient.connectPubSub()
-            //Erstelle Listener und übergebe interface instance
+            //Create Listener Instance and pass them to the Connection
             connection.addListener(Listener())
             val async = connection.async()
             //Define channel
