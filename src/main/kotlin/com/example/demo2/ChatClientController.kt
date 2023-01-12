@@ -12,11 +12,9 @@ import javafx.scene.control.TextArea
 import java.util.Random
 
 
-class HelloController {
-
+class ChatClientController {
 
     private var clientid = Random().nextInt(10)
-
 
     @FXML
     private lateinit var welcomeText: Label
@@ -26,29 +24,31 @@ class HelloController {
 
     @FXML
     private fun onHelloButtonClick() {
-        //welcomeText.text = messagefield.text
-        val config =  RedisURI.Builder.redis("172.16.202.132",6379).withDatabase(0).build()//RedisURI.create("redis://172.16.202.132:6379").database(1));
+        val config = RedisURI.Builder.redis("172.16.202.132", 6379).withDatabase(0)
+            .build()//RedisURI.create("redis://172.16.202.132:6379").database(1));
         val redisClient = RedisClient.create(config)
         val connection: StatefulRedisPubSubConnection<String, String> = redisClient.connectPubSub()
         val async = connection.async()
-        val tmp = "Client "+clientid+":"+messagefield.text.toString()
+        val tmp = "Client " + clientid + ":" + messagefield.text.toString()
         println("send $tmp")
         async.publish("chat", tmp)
+        messagefield.clear()
     }
 
     @FXML
     private fun startListener() {
         welcomeText.text = "Listener Started on Client $clientid"
-        val thread= Thread {
+        val thread = Thread {
             class Listener : RedisPubSubListener<String?, String?> {
+                //Code der bei Nachrichten empfang ausgeführt werden soll
                 override fun message(s: String?, s2: String?) {
                     Platform.setImplicitExit(false)
-                    //Update GUI
+                    //Update GUI out of non GUI Thread
                     Platform.runLater {
-                        welcomeText.text = welcomeText.text.toString() + "\n"+ s2
-                        messagefield.clear()
+                        welcomeText.text = welcomeText.text.toString() + "\n" + s2
                     }
                 }
+
                 override fun message(s: String?, k1: String?, s2: String?) {}
                 override fun subscribed(s: String?, l: Long) {}
                 override fun psubscribed(s: String?, l: Long) {}
@@ -58,7 +58,7 @@ class HelloController {
             // Erstelle Verbindung zu Redis
             val redisClient = RedisClient.create("redis://172.16.202.132:6379")
             val connection = redisClient.connectPubSub()
-            //Erstelle Listener und übergbe interface isntance
+            //Erstelle Listener und übergebe interface instance
             connection.addListener(Listener())
             val async = connection.async()
             //Define channel
