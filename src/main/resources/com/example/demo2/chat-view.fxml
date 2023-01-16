@@ -3,16 +3,36 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="467.0" prefWidth="505.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.example.demo2.ChatClientController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <Label fx:id="welcomeText" prefHeight="121.0" prefWidth="472.0" />
-   <TextArea fx:id="messagefield" prefHeight="200.0" prefWidth="200.0" />
-    <Button onAction="#onHelloButtonClick" text="SendMessage" />
-   <Button mnemonicParsing="false" onAction="#startListener" text="StartListener" />
-</VBox>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.ChatClientController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="16.0" prefWidth="185.0" text="ListChannels" textAlignment="CENTER" />
+            <ListView minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="185.0">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </ListView>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="338.0" spacing="20.0">
+         <padding>
+            <Insets bottom="20.0" left="50.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label fx:id="welcomeText" prefHeight="121.0" prefWidth="472.0" />
+            <TextArea fx:id="messagefield" prefHeight="149.0" prefWidth="263.0" />
+            <Button onAction="#onHelloButtonClick" text="SendMessage" />
+            <Button mnemonicParsing="false" onAction="#startListener" text="StartListener" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

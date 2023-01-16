@@ -50,7 +50,9 @@ class ChatClientController {
                 }
 
                 override fun message(s: String?, k1: String?, s2: String?) {}
-                override fun subscribed(s: String?, l: Long) {}
+                override fun subscribed(s: String?, l: Long) {
+                    println("Subscribe successfully to channel: $s")
+                }
                 override fun psubscribed(s: String?, l: Long) {}
                 override fun unsubscribed(s: String?, l: Long) {}
                 override fun punsubscribed(s: String?, l: Long) {}
