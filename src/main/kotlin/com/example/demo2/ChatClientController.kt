@@ -13,6 +13,8 @@ import java.util.Random
 
 
 class ChatClientController {
+    private val host = "172.16.202.132"
+    private val port = 6379
 
     private var clientid = Random().nextInt(10)
 
@@ -25,11 +27,11 @@ class ChatClientController {
     @FXML
     private fun onHelloButtonClick() {
         //Create Redis Connection in GUI Thread
-        val config = RedisURI.Builder.redis("172.16.202.132", 6379).withDatabase(0).build()
+        val config = RedisURI.Builder.redis(host, port).withDatabase(0).build()
         val redisClient = RedisClient.create(config)
         val connection: StatefulRedisPubSubConnection<String, String> = redisClient.connectPubSub()
         val async = connection.async()
-        val tmp = "Client " + clientid + ":" + messagefield.text.toString()
+        val tmp = "Client " + clientid + ": " + messagefield.text.toString()
         println("send $tmp")
         async.publish("chat", tmp)
         messagefield.clear() //Clear MessageInput field when Message is send
@@ -45,7 +47,7 @@ class ChatClientController {
                     Platform.setImplicitExit(false)
                     //Update GUI in non GUI Thread
                     Platform.runLater {
-                        welcomeText.text = welcomeText.text.toString() + "\n" + s2
+                        welcomeText.text = welcomeText.text.toString() + "\n $s2"
                     }
                 }
 
