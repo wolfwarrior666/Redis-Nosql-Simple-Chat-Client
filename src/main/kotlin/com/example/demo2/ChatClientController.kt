@@ -29,7 +29,7 @@ class ChatClientController {
         val redisClient = RedisClient.create(config)
         val connection: StatefulRedisPubSubConnection<String, String> = redisClient.connectPubSub()
         val async = connection.async()
-        val tmp = "Client " + clientid + ":" + messagefield.text.toString()
+        val tmp = "Client " + clientid + ": " + messagefield.text.toString()
         println("send $tmp")
         async.publish("chat", tmp)
         messagefield.clear() //Clear MessageInput field when Message is send

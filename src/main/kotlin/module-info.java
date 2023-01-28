@@ -5,7 +5,6 @@ module com.example.demo2 {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
-    requires com.almasb.fxgl.all;
     requires lettuce.core;
 
     opens com.example.demo2 to javafx.fxml;
