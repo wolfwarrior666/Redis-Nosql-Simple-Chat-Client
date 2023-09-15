@@ -1,3 +1,5 @@
+[![Release](https://img.shields.io/github/v/release/wolfwarrior666/Redis-Nosql-Simple-Chat-Client?include_prereleases&style=plastic)]( https://github.com/Redis-Nosql-Simple-Chat-Client/THUMoodleWrapper/releases)
+
 # About this Applikation
 This Application is a simple example for a presentation about Redis.
 I use the Pub/Sub pattern from Redis to build a small JavaFX ChatClient.
